@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro</title>
+    <link
+      rel="shortcut icon"
+      href="./icons/pomodoro-logo.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <header class="head">
+        <div class="head-btn-left">
+          <button class="btn options"></button>
+          <button class="btn reload"></button>
+        </div>
+        <h1 class="title">Pomodoro</h1>
+        <div class="head-btn-right">
+          <button class="btn info"></button>
+          <button class="btn dark-mode"></button>
+        </div>
+      </header>
+      <section class="main-part">
+        <section class="app-tab">
+          <div class="timer">
+            <div class="time">00:00</div>
+            <div class="status">Pomodoro</div>
+          </div>
+          <div class="round"></div>
+          <div class="start-pause">
+            <button class="btn start"></button>
+            <button class="btn pause"></button>
+          </div>
+        </section>
+        <section class="option-tab hidden">
+          <label for="work-time">Work</label>
+          <input type="number" name="work" id="work-time" value="25" min="1" />
+          <label for="short-break-time">Short Break</label>
+          <input
+            type="number"
+            name="short-brake"
+            id="short-break-time"
+            value="5"
+            min="1"
+          />
+          <label for="long-break-time">Long Break</label>
+          <input
+            type="number"
+            name="long-break"
+            id="long-break-time"
+            value="15"
+            min="1"
+          />
+          <label for="round-time">Round</label>
+          <input type="number" name="round" id="round-time" value="4" min="1" />
+          <div class="option-btn">
+            <button class="btn done"></button>
+            <button class="btn refresh"></button
+            ><button class="btn close"></button>
+          </div>
+        </section>
+      </section>
+      <section class="info-tab hidden">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
+        aliquid quisquam nulla ut quo dolor iusto reprehenderit animi vel illo
+        impedit saepe assumenda quaerat eaque eius minus aliquam unde commodi
+        accusantium at qui dolorem excepturi. Sapiente aut veritatis molestiae
+        explicabo distinctio nemo sed voluptatum delectus aperiam, hic placeat
+        temporibus dolores aliquam consequuntur libero reprehenderit velit
+        eaque?
+      </section>
+      <section class="final-tab hidden">
+        <p class="final">Pomodoro is Done! Mouse over to continue!</p>
+      </section>
+    </main>
+  </body>
+</html>
