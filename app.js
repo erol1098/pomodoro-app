@@ -14,7 +14,7 @@ const timer = document.querySelector(".time");
 const workStatus = document.querySelector(".status");
 const round = document.querySelector(".round");
 const startBtn = document.querySelector(".start");
-const pauseBtn = document.querySelector(".pause");
+const stopBtn = document.querySelector(".stop");
 
 const optionTab = document.querySelector(".option-tab");
 const optionTabButtons = document.querySelector(".option-btn");
@@ -24,6 +24,7 @@ const closeBtn = document.querySelector(".close");
 
 const infoTab = document.querySelector(".info-tab");
 const finalTab = document.querySelector(".final-tab");
+const animation = document.querySelector(".animation");
 
 //* Options Tab Variables
 const defaultWorkTime = 25;
@@ -76,6 +77,9 @@ let interval;
 const pomodoro = function (workTime, shortBreak, longBreak, round) {
   w = setInterval(() => {
     workStatus.textContent = "Working";
+    document.body.style.setProperty("--color", "#F9D923");
+    document.body.style.setProperty("--duration", "26s");
+    document.body.style.setProperty("--name", "countdown1");
     workTime -= 1000;
     timer.textContent = new Intl.DateTimeFormat("tr-TR", {
       minute: "2-digit",
@@ -97,6 +101,9 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
       if (roundCounter % 4 !== 0) {
         s = setInterval(() => {
           workStatus.textContent = "Short Break";
+          document.body.style.setProperty("--color", "#36AE7C");
+          document.body.style.setProperty("--duration", "6s");
+          document.body.style.setProperty("--name", "countdown2");
           shortBreak -= 1000;
           timer.textContent = new Intl.DateTimeFormat("tr-TR", {
             minute: "2-digit",
@@ -108,6 +115,9 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
       } else {
         l = setInterval(() => {
           workStatus.textContent = "Long Break";
+          document.body.style.setProperty("--color", "#187498");
+          document.body.style.setProperty("--duration", "16s");
+          document.body.style.setProperty("--name", "countdown3");
           longBreak -= 1000;
           timer.textContent = new Intl.DateTimeFormat("tr-TR", {
             minute: "2-digit",
@@ -127,8 +137,23 @@ const intervalFunc = function () {
 startBtn.addEventListener("click", (e) => {
   pomodoro(workTime, shortBreakTime, longBreakTime, roundTime);
   interval = setInterval(intervalFunc, workTime + shortBreakTime);
+  startBtn.classList.add("hidden");
+  stopBtn.classList.remove("hidden");
 });
-
+//* Stop Button
+stopBtn.addEventListener("click", (e) => {
+  startBtn.classList.remove("hidden");
+  stopBtn.classList.add("hidden");
+  clearInterval(w);
+  clearInterval(s);
+  clearInterval(l);
+  clearInterval(interval);
+  workStatus.textContent = "Pomodoro";
+  roundCounter = 0;
+  timer.textContent = "00:00";
+  setDefaults();
+  defineVar();
+});
 //* Options-Reload Buttons
 leftHeadButtons.addEventListener("click", (e) => {
   if (e.target.classList.contains("options")) {

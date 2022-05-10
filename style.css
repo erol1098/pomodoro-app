@@ -1,12 +1,21 @@
+:root {
+  --duration: "";
+  --color: "";
+  --name: "";
+  --fill: "";
+}
 * {
   margin: 0;
   padding: 0;
   font-family: "Righteous", cursive;
   box-sizing: border-box;
+  color: #eb5353;
 }
 .container {
-  border: 2px solid red;
+  border-radius: 3rem;
+  box-shadow: 1rem 1rem 3rem #ccc;
   width: 50%;
+  max-width: 25rem;
   margin: auto;
   margin-top: 3rem;
   display: flex;
@@ -16,19 +25,25 @@
   position: relative;
 }
 .head {
+  background-color: #eb5353;
+  border-radius: 2rem 2rem 0 0;
   width: 100%;
   padding: 1rem 0.3rem 1rem 0.3rem;
-  border-bottom: 0.2rem solid black;
+  border-bottom: 0.1rem solid #ccc;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+.title {
+  color: #fff;
+  letter-spacing: 0.1rem;
+}
 .btn {
   margin: 0.2rem;
-  background-color: inherit;
+  background-color: #fff;
   width: 2rem;
   height: 2rem;
-  border: 0.1rem solid rgba(0, 0, 0, 0.2);
+  border: 0.1rem solid #ccc;
   border-radius: 10rem;
   cursor: pointer;
 }
@@ -49,46 +64,56 @@
 }
 .app-tab {
   width: 100%;
-  height: 20rem;
+  height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 1rem;
 }
 .timer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   gap: 1rem;
-  font-size: 2rem;
+  margin-top: 2rem;
+}
+.time {
+  font-size: 3rem;
+}
+.status {
+  font-size: 1.4rem;
 }
 .round {
   display: flex;
   gap: 0.5rem;
+  margin-top: 4rem;
 }
 .round-style {
   margin: 0.2rem;
   background-color: inherit;
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 10rem;
 }
 .start {
   background-image: url("./icons/play-outline.svg");
+  width: 4rem;
+  height: 4rem;
+  border: none;
 }
-.pause {
-  background-image: url("./icons/pause-outline.svg");
+.stop {
+  background-image: url("./icons/stop-outline.svg");
+  width: 4rem;
+  height: 4rem;
+  border: none;
 }
 .option-tab {
   width: 100%;
-  height: 20rem;
+  height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 .done {
   background-image: url("./icons/checkmark-outline.svg");
@@ -101,7 +126,7 @@
 }
 .info-tab {
   width: 100%;
-  height: 20rem;
+  height: 25rem;
   text-align: center;
   padding: 0 3rem;
 }
@@ -112,10 +137,9 @@
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 0.5;
   width: 90%;
-  height: 19rem;
+  height: 21rem;
   position: absolute;
   top: 6rem;
-  backdrop-filter: blur(28px);
 }
 .final {
   color: white;
@@ -129,4 +153,66 @@
 .dark {
   color: black;
   background-color: white;
+}
+
+.animation {
+  width: 100%;
+}
+/* Removes SVG styling that would hide the time label */
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+.base-timer__svg {
+  width: 60%;
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+  transform: rotateY(-180deg) rotateZ(-90deg);
+}
+/* The SVG path that displays the timer's progress */
+.base-timer__path-elapsed {
+  stroke-dasharray: 280px;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-width: 0.3rem;
+  stroke: var(--color);
+  fill: var(--fill);
+
+  animation-name: var(--name);
+  animation-duration: var(--duration);
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+.base-timer {
+  stroke-dasharray: 17.82rem;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-width: 0.3rem;
+  stroke: #ccc;
+  fill: none;
+}
+@keyframes countdown1 {
+  from {
+    stroke-dashoffset: 17.5rem;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes countdown2 {
+  from {
+    stroke-dashoffset: 17.5rem;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes countdown3 {
+  from {
+    stroke-dashoffset: 17.5rem;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
