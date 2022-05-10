@@ -44,11 +44,11 @@ let isStart = false;
 
 //* Functions
 const defineVar = function () {
-  workTime = document.querySelector("#work-time").value * 1000 + 1000;
+  workTime = document.querySelector("#work-time").value * 60000 + 1000;
   shortBreakTime =
-    document.querySelector("#short-break-time").value * 1000 + 1000;
+    document.querySelector("#short-break-time").value * 60000 + 1000;
   longBreakTime =
-    document.querySelector("#long-break-time").value * 1000 + 1000;
+    document.querySelector("#long-break-time").value * 60000 + 1000;
   roundTime = document.querySelector("#round-time").value;
   addRound(roundTime, roundCounter);
 };
@@ -104,7 +104,7 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
   focusAudio.play();
   w = setInterval(() => {
     workStatus.textContent = "Focus Time";
-    animationFunc("#F9D923", "26s", "countdown1");
+    animationFunc("#F9D923", "1501s", "countdown1");
     workTime -= 1000;
     timeDesigner(workTime);
 
@@ -124,7 +124,7 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
         shortBreakAudio.play();
         s = setInterval(() => {
           workStatus.textContent = "Short Break";
-          animationFunc("#36AE7C", "6s", "countdown2");
+          animationFunc("#36AE7C", "301s", "countdown2");
           shortBreak -= 1000;
           timeDesigner(shortBreak);
           shortBreak === 0 ? clearInterval(s) : shortBreak;
@@ -133,7 +133,7 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
         longBreakAudio.play();
         l = setInterval(() => {
           workStatus.textContent = "Long Break";
-          animationFunc("#187498", "16s", "countdown3");
+          animationFunc("#187498", "901s", "countdown3");
           longBreak -= 1000;
           timeDesigner(longBreak);
           longBreak === 0 ? clearInterval(l) : longBreak;
