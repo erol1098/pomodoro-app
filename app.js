@@ -26,6 +26,10 @@ const infoTab = document.querySelector(".info-tab");
 const finalTab = document.querySelector(".final-tab");
 const animation = document.querySelector(".animation");
 
+const focusAudio = document.querySelector(".focus-time-audio");
+const shortBreakAudio = document.querySelector(".short-break-audio");
+const longBreakAudio = document.querySelector(".long-break-audio");
+
 //* Options Tab Variables
 const defaultWorkTime = 25;
 const defaultShortBrakeTime = 5;
@@ -97,6 +101,7 @@ let s;
 let l;
 let interval;
 const pomodoro = function (workTime, shortBreak, longBreak, round) {
+  focusAudio.play();
   w = setInterval(() => {
     workStatus.textContent = "Focus Time";
     animationFunc("#F9D923", "26s", "countdown1");
@@ -116,6 +121,7 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
       }
 
       if (roundCounter % 4 !== 0) {
+        shortBreakAudio.play();
         s = setInterval(() => {
           workStatus.textContent = "Short Break";
           animationFunc("#36AE7C", "6s", "countdown2");
@@ -124,6 +130,7 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
           shortBreak === 0 ? clearInterval(s) : shortBreak;
         }, 1000);
       } else {
+        longBreakAudio.play();
         l = setInterval(() => {
           workStatus.textContent = "Long Break";
           animationFunc("#187498", "16s", "countdown3");
@@ -167,6 +174,7 @@ leftHeadButtons.addEventListener("click", (e) => {
     mainPart.classList.remove("hidden");
     infoTab.classList.add("hidden");
   } else if (e.target.classList.contains("reload")) {
+    infoTab.classList.add("hidden");
     clearInterval(w);
     clearInterval(s);
     clearInterval(l);
@@ -179,9 +187,7 @@ leftHeadButtons.addEventListener("click", (e) => {
 //* Info-Dark Mode Buttons
 rigthHeadButtons.addEventListener("click", (e) => {
   if (e.target.classList.contains("info")) {
-    console.log("info clicked");
     infoTab.classList.toggle("hidden");
-    mainPart.classList.toggle("hidden");
   } else if (e.target.classList.contains("dark-mode")) {
     console.log("dark mode clicked");
     // document.querySelector(".timer").classList.toggle("dark");
@@ -196,6 +202,9 @@ optionTabButtons.addEventListener("click", (e) => {
     defineVar();
     round.innerHTML = "";
     addRound(roundTime, roundCounter);
+  } else if (e.target.classList.contains("done")) {
+    appTab.classList.remove("hidden");
+    optionTab.classList.add("hidden");
   } else if (e.target.classList.contains("close")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
