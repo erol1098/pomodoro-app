@@ -2,7 +2,6 @@
   --duration: "";
   --color: "";
   --name: "";
-  --fill: "";
 }
 * {
   margin: 0;
@@ -21,7 +20,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
   position: relative;
 }
 .head {
@@ -48,7 +46,7 @@
   cursor: pointer;
 }
 .btn:hover {
-  box-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.2rem 0.2rem 0.8rem rgba(0, 0, 0, 0.2);
 }
 .options {
   background-image: url("./icons/settings-sharp.svg");
@@ -62,12 +60,17 @@
 .dark-mode {
   background-image: url("./icons/contrast-outline.svg");
 }
+.main-part {
+  width: 100%;
+  height: 25rem;
+}
 .app-tab {
   width: 100%;
   height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2.2rem;
   gap: 2rem;
 }
 .timer {
@@ -95,25 +98,33 @@
   height: 3rem;
   border-radius: 10rem;
 }
-.start {
-  background-image: url("./icons/play-outline.svg");
+.btn-1 {
   width: 4rem;
   height: 4rem;
   border: none;
+  box-shadow: 0.2rem 0.2rem 0.8rem #ccc;
+}
+.btn-1:active {
+  border: 0.1rem solid #ccc;
+  box-shadow: none;
+}
+.start {
+  background-image: url("./icons/play-outline.svg");
 }
 .stop {
   background-image: url("./icons/stop-outline.svg");
-  width: 4rem;
-  height: 4rem;
-  border: none;
 }
 .option-tab {
+  background-color: #fff;
+  border-radius: 0 0 3rem 3rem;
   width: 100%;
   height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  position: relative;
+  z-index: 3;
 }
 .done {
   background-image: url("./icons/checkmark-outline.svg");
@@ -129,6 +140,13 @@
   height: 25rem;
   text-align: center;
   padding: 0 3rem;
+}
+.info-tab h3 {
+  margin-bottom: 1.5rem;
+}
+.list-items {
+  margin-bottom: 1rem;
+  text-align: left;
 }
 .final-tab {
   display: flex;
@@ -157,6 +175,10 @@
 
 .animation {
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 /* Removes SVG styling that would hide the time label */
 .base-timer__circle {
@@ -169,6 +191,7 @@
   top: 5rem;
   left: 5rem;
   transform: rotateY(-180deg) rotateZ(-90deg);
+  z-index: 2;
 }
 /* The SVG path that displays the timer's progress */
 .base-timer__path-elapsed {

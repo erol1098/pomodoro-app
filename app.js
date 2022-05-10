@@ -37,6 +37,7 @@ let longBreakTime;
 let roundTime;
 let roundCounter = 0;
 
+//* Functions
 const defineVar = function () {
   workTime = document.querySelector("#work-time").value * 1000 + 1000;
   shortBreakTime =
@@ -51,6 +52,9 @@ const setDefaults = function () {
   document.querySelector("#short-break-time").value = defaultShortBrakeTime;
   document.querySelector("#long-break-time").value = defaultLongBreakTime;
   document.querySelector("#round-time").value = defaultRoundTime;
+  workStatus.textContent = "Status";
+  roundCounter = 0;
+  timer.textContent = "00:00";
 };
 const addRound = function (roundTime, roundCounter) {
   round.innerHTML = "";
@@ -68,6 +72,18 @@ const addRound = function (roundTime, roundCounter) {
     round.append(newRound);
   }
 };
+const animationFunc = function (color, duration, name) {
+  document.body.style.setProperty("--color", color);
+  document.body.style.setProperty("--duration", duration);
+  document.body.style.setProperty("--name", name);
+};
+
+const timeDesigner = function (time) {
+  timer.textContent = new Intl.DateTimeFormat("tr-TR", {
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(time);
+};
 
 //* Timer
 let w;
@@ -76,15 +92,10 @@ let l;
 let interval;
 const pomodoro = function (workTime, shortBreak, longBreak, round) {
   w = setInterval(() => {
-    workStatus.textContent = "Working";
-    document.body.style.setProperty("--color", "#F9D923");
-    document.body.style.setProperty("--duration", "26s");
-    document.body.style.setProperty("--name", "countdown1");
+    workStatus.textContent = "Focus Time";
+    animationFunc("#F9D923", "26s", "countdown1");
     workTime -= 1000;
-    timer.textContent = new Intl.DateTimeFormat("tr-TR", {
-      minute: "2-digit",
-      second: "2-digit",
-    }).format(workTime);
+    timeDesigner(workTime);
 
     if (workTime === 0) {
       clearInterval(w);
@@ -101,28 +112,17 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
       if (roundCounter % 4 !== 0) {
         s = setInterval(() => {
           workStatus.textContent = "Short Break";
-          document.body.style.setProperty("--color", "#36AE7C");
-          document.body.style.setProperty("--duration", "6s");
-          document.body.style.setProperty("--name", "countdown2");
+          animationFunc("#36AE7C", "6s", "countdown2");
           shortBreak -= 1000;
-          timer.textContent = new Intl.DateTimeFormat("tr-TR", {
-            minute: "2-digit",
-            second: "2-digit",
-          }).format(shortBreak);
-
+          timeDesigner(shortBreak);
           shortBreak === 0 ? clearInterval(s) : shortBreak;
         }, 1000);
       } else {
         l = setInterval(() => {
           workStatus.textContent = "Long Break";
-          document.body.style.setProperty("--color", "#187498");
-          document.body.style.setProperty("--duration", "16s");
-          document.body.style.setProperty("--name", "countdown3");
+          animationFunc("#187498", "16s", "countdown3");
           longBreak -= 1000;
-          timer.textContent = new Intl.DateTimeFormat("tr-TR", {
-            minute: "2-digit",
-            second: "2-digit",
-          }).format(longBreak);
+          timeDesigner(longBreak);
           longBreak === 0 ? clearInterval(l) : longBreak;
         }, 1000);
       }
@@ -140,6 +140,7 @@ startBtn.addEventListener("click", (e) => {
   startBtn.classList.add("hidden");
   stopBtn.classList.remove("hidden");
 });
+
 //* Stop Button
 stopBtn.addEventListener("click", (e) => {
   startBtn.classList.remove("hidden");
@@ -148,9 +149,6 @@ stopBtn.addEventListener("click", (e) => {
   clearInterval(s);
   clearInterval(l);
   clearInterval(interval);
-  workStatus.textContent = "Pomodoro";
-  roundCounter = 0;
-  timer.textContent = "00:00";
   setDefaults();
   defineVar();
 });
@@ -166,9 +164,6 @@ leftHeadButtons.addEventListener("click", (e) => {
     clearInterval(s);
     clearInterval(l);
     clearInterval(interval);
-    workStatus.textContent = "Pomodoro";
-    roundCounter = 0;
-    timer.textContent = "00:00";
     setDefaults();
     defineVar();
   }
@@ -217,9 +212,6 @@ finalTab.addEventListener("mouseover", (e) => {
   clearInterval(s);
   clearInterval(l);
   clearInterval(interval);
-  workStatus.textContent = "Pomodoro";
-  roundCounter = 0;
-  timer.textContent = "00:00";
   setDefaults();
   defineVar();
 });
