@@ -62,11 +62,11 @@
 }
 .main-part {
   width: 100%;
-  height: 25rem;
+  /* height: 25rem; */
 }
 .app-tab {
   width: 100%;
-  height: 25rem;
+  /* height: 25rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,9 +87,11 @@
   font-size: 1.4rem;
 }
 .round {
-  display: flex;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 4rem;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .round-style {
   margin: 0.2rem;
@@ -107,6 +109,9 @@
 .btn-1:active {
   border: 0.1rem solid #ccc;
   box-shadow: none;
+}
+.start-pause {
+  margin-bottom: 2rem;
 }
 .start {
   background-image: url("./icons/play-outline.svg");
@@ -214,6 +219,7 @@
   stroke-width: 0.3rem;
   stroke: #ccc;
   fill: none;
+  filter: drop-shadow(0 0 0.1rem #ccc);
 }
 @keyframes countdown1 {
   from {

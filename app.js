@@ -36,6 +36,7 @@ let shortBreakTime;
 let longBreakTime;
 let roundTime;
 let roundCounter = 0;
+let isStart = false;
 
 //* Functions
 const defineVar = function () {
@@ -55,6 +56,11 @@ const setDefaults = function () {
   workStatus.textContent = "Status";
   roundCounter = 0;
   timer.textContent = "00:00";
+  document.body.style.setProperty("--name", "");
+  document.body.style.setProperty("--color", "");
+  startBtn.classList.remove("hidden");
+  stopBtn.classList.add("hidden");
+  isStart = false;
 };
 const addRound = function (roundTime, roundCounter) {
   round.innerHTML = "";
@@ -139,6 +145,7 @@ startBtn.addEventListener("click", (e) => {
   interval = setInterval(intervalFunc, workTime + shortBreakTime);
   startBtn.classList.add("hidden");
   stopBtn.classList.remove("hidden");
+  isStart = true;
 });
 
 //* Stop Button
@@ -183,7 +190,7 @@ rigthHeadButtons.addEventListener("click", (e) => {
 
 //* Options Tab Done-Cancel-Refresh Button
 optionTabButtons.addEventListener("click", (e) => {
-  if (e.target.classList.contains("done")) {
+  if (e.target.classList.contains("done") && !isStart) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
     defineVar();
