@@ -189,12 +189,11 @@ rigthHeadButtons.addEventListener("click", (e) => {
   if (e.target.classList.contains("options")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
-    mainPart.classList.remove("hidden");
+    // mainPart.classList.remove("hidden");
     infoTab.classList.add("hidden");
   } else if (e.target.classList.contains("info")) {
     infoTab.classList.toggle("hidden");
   } else if (e.target.classList.contains("sound-on")) {
-    console.log("sound-on clicked");
     soundOffBtn.classList.remove("hidden");
     soundOnBtn.classList.add("hidden");
     isMuted = true;
@@ -202,7 +201,6 @@ rigthHeadButtons.addEventListener("click", (e) => {
     soundOnBtn.classList.remove("hidden");
     soundOffBtn.classList.add("hidden");
     isMuted = false;
-    console.log("sound-off clicked");
   }
 });
 
@@ -220,10 +218,13 @@ optionTabButtons.addEventListener("click", (e) => {
   } else if (e.target.classList.contains("close")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
-    round.innerHTML = "";
+    // round.innerHTML = "";
     addRound(roundTime, roundCounter);
   } else if (e.target.classList.contains("refresh")) {
-    setDefaults();
+    document.querySelector("#work-time").value = defaultWorkTime;
+    document.querySelector("#short-break-time").value = defaultShortBrakeTime;
+    document.querySelector("#long-break-time").value = defaultLongBreakTime;
+    document.querySelector("#round-time").value = defaultRoundTime;
   }
 });
 
