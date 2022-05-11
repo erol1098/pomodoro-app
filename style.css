@@ -23,6 +23,7 @@ body {
   box-shadow: 0rem 0rem 6rem #ccc;
   width: 50%;
   max-width: 25rem;
+  min-width: 25rem;
   margin: auto;
   margin-top: 3rem;
   display: flex;
@@ -38,7 +39,7 @@ body {
   border-bottom: 0.1rem solid #ccc;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .app-logo {
   width: 2rem;
@@ -68,8 +69,11 @@ body {
 .info {
   background-image: url("./icons/information-outline.svg");
 }
-.dark-mode {
-  background-image: url("./icons/contrast-outline.svg");
+.sound-on {
+  background-image: url("./icons/volume-high-outline.svg");
+}
+.sound-off {
+  background-image: url("./icons/volume-mute-outline.svg");
 }
 .main-part {
   width: 100%;

@@ -7,7 +7,8 @@ const reloadBtn = document.querySelector(".reload");
 
 const rigthHeadButtons = document.querySelector(".head-btn-right");
 const infoBtn = document.querySelector(".info");
-const darkModeBtn = document.querySelector(".dark-mode");
+const soundOnBtn = document.querySelector(".sound-on");
+const soundOffBtn = document.querySelector(".sound-off");
 
 const appTab = document.querySelector(".app-tab");
 const timer = document.querySelector(".time");
@@ -41,6 +42,7 @@ let longBreakTime;
 let roundTime;
 let roundCounter = 0;
 let isStart = false;
+let isMuted = false;
 
 //* Functions
 const defineVar = function () {
@@ -52,6 +54,7 @@ const defineVar = function () {
   roundTime = document.querySelector("#round-time").value;
   addRound(roundTime, roundCounter);
 };
+
 const setDefaults = function () {
   document.querySelector("#work-time").value = defaultWorkTime;
   document.querySelector("#short-break-time").value = defaultShortBrakeTime;
@@ -66,6 +69,7 @@ const setDefaults = function () {
   stopBtn.classList.add("hidden");
   isStart = false;
 };
+
 const addRound = function (roundTime, roundCounter) {
   round.innerHTML = "";
   for (let i = 0; i < roundCounter; i++) {
@@ -101,13 +105,12 @@ let s;
 let l;
 let interval;
 const pomodoro = function (workTime, shortBreak, longBreak, round) {
-  focusAudio.play();
+  !isMuted ? focusAudio.play() : isMuted;
+  animationFunc("#F9D923", `${workTime}ms`, "countdown1");
   w = setInterval(() => {
     workStatus.textContent = "Focus Time";
-    animationFunc("#F9D923", "1501s", "countdown1");
     workTime -= 1000;
     timeDesigner(workTime);
-
     if (workTime === 0) {
       clearInterval(w);
       roundCounter++;
@@ -119,21 +122,20 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
         optionTab.style.visibility = "hidden";
         infoTab.style.visibility = "hidden";
       }
-
       if (roundCounter % 4 !== 0) {
-        shortBreakAudio.play();
+        !isMuted ? shortBreakAudio.play() : isMuted;
+        animationFunc("#36AE7C", `${shortBreak}ms`, "countdown2");
         s = setInterval(() => {
           workStatus.textContent = "Short Break";
-          animationFunc("#36AE7C", "301s", "countdown2");
           shortBreak -= 1000;
           timeDesigner(shortBreak);
           shortBreak === 0 ? clearInterval(s) : shortBreak;
         }, 1000);
       } else {
-        longBreakAudio.play();
+        !isMuted ? longBreakAudio.play() : isMuted;
+        animationFunc("#187498", `${longBreak}ms`, "countdown3");
         l = setInterval(() => {
           workStatus.textContent = "Long Break";
-          animationFunc("#187498", "901s", "countdown3");
           longBreak -= 1000;
           timeDesigner(longBreak);
           longBreak === 0 ? clearInterval(l) : longBreak;
@@ -157,8 +159,6 @@ startBtn.addEventListener("click", (e) => {
 
 //* Stop Button
 stopBtn.addEventListener("click", (e) => {
-  startBtn.classList.remove("hidden");
-  stopBtn.classList.add("hidden");
   clearInterval(w);
   clearInterval(s);
   clearInterval(l);
@@ -166,31 +166,43 @@ stopBtn.addEventListener("click", (e) => {
   setDefaults();
   defineVar();
 });
-//* Options-Reload Buttons
-leftHeadButtons.addEventListener("click", (e) => {
+// //* Options-Reload Buttons
+// leftHeadButtons.addEventListener("click", (e) => {
+//   if (e.target.classList.contains("options")) {
+//     appTab.classList.toggle("hidden");
+//     optionTab.classList.toggle("hidden");
+//     mainPart.classList.remove("hidden");
+//     infoTab.classList.add("hidden");
+//   } else if (e.target.classList.contains("reload")) {
+//     infoTab.classList.add("hidden");
+//     clearInterval(w);
+//     clearInterval(s);
+//     clearInterval(l);
+//     clearInterval(interval);
+//     setDefaults();
+//     defineVar();
+//   }
+// });
+
+//* Info-Dark Mode Buttons
+rigthHeadButtons.addEventListener("click", (e) => {
   if (e.target.classList.contains("options")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
     mainPart.classList.remove("hidden");
     infoTab.classList.add("hidden");
-  } else if (e.target.classList.contains("reload")) {
-    infoTab.classList.add("hidden");
-    clearInterval(w);
-    clearInterval(s);
-    clearInterval(l);
-    clearInterval(interval);
-    setDefaults();
-    defineVar();
-  }
-});
-
-//* Info-Dark Mode Buttons
-rigthHeadButtons.addEventListener("click", (e) => {
-  if (e.target.classList.contains("info")) {
+  } else if (e.target.classList.contains("info")) {
     infoTab.classList.toggle("hidden");
-  } else if (e.target.classList.contains("dark-mode")) {
-    console.log("dark mode clicked");
-    // document.querySelector(".timer").classList.toggle("dark");
+  } else if (e.target.classList.contains("sound-on")) {
+    console.log("sound-on clicked");
+    soundOffBtn.classList.remove("hidden");
+    soundOnBtn.classList.add("hidden");
+    isMuted = true;
+  } else if (e.target.classList.contains("sound-off")) {
+    soundOnBtn.classList.remove("hidden");
+    soundOffBtn.classList.add("hidden");
+    isMuted = false;
+    console.log("sound-off clicked");
   }
 });
 
