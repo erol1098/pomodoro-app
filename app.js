@@ -191,7 +191,6 @@ rigthHeadButtons.addEventListener("click", (e) => {
   if (e.target.classList.contains("options")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
-    // mainPart.classList.remove("hidden");
     infoTab.classList.add("hidden");
   } else if (e.target.classList.contains("info")) {
     infoTab.classList.toggle("hidden");
