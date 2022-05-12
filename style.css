@@ -77,11 +77,9 @@ body {
 }
 .main-part {
   width: 100%;
-  /* height: 25rem; */
 }
 .app-tab {
   width: 100%;
-  /* height: 25rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,8 +105,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin-top: 4rem;
-  /* word-break: break-all;
-  word-wrap: break-word; */
 }
 .round-style {
   margin: 0.2rem;
@@ -234,7 +230,7 @@ input {
 }
 /* The SVG path that displays the timer's progress */
 .animation__path-elapsed {
-  stroke-dasharray: 280px;
+  stroke-dasharray: 17.5rem;
   stroke-dashoffset: 0;
   stroke-linecap: round;
   stroke-width: 0.3rem;
@@ -243,6 +239,7 @@ input {
 
   animation-name: var(--name);
   animation-duration: var(--duration);
+  /* animation-delay: -2000ms; */
   animation-timing-function: linear;
   animation-iteration-count: 1;
 }

@@ -30,11 +30,12 @@ const animation = document.querySelector(".animation");
 const focusAudio = document.querySelector(".focus-time-audio");
 const shortBreakAudio = document.querySelector(".short-break-audio");
 const longBreakAudio = document.querySelector(".long-break-audio");
+const endAudio = document.querySelector(".end-audio");
 
 //* Options Tab Variables
-const defaultWorkTime = 25;
-const defaultShortBrakeTime = 5;
-const defaultLongBreakTime = 15;
+const defaultWorkTime = 0.2;
+const defaultShortBrakeTime = 0.2;
+const defaultLongBreakTime = 0.2;
 const defaultRoundTime = 4;
 let workTime;
 let shortBreakTime;
@@ -46,11 +47,9 @@ let isMuted = false;
 
 //* Functions
 const defineVar = function () {
-  workTime = document.querySelector("#work-time").value * 60000 + 1000;
-  shortBreakTime =
-    document.querySelector("#short-break-time").value * 60000 + 1000;
-  longBreakTime =
-    document.querySelector("#long-break-time").value * 60000 + 1000;
+  workTime = document.querySelector("#work-time").value * 60000;
+  shortBreakTime = document.querySelector("#short-break-time").value * 60000;
+  longBreakTime = document.querySelector("#long-break-time").value * 60000;
   roundTime = document.querySelector("#round-time").value;
   addRound(roundTime, roundCounter);
 };
@@ -86,10 +85,12 @@ const addRound = function (roundTime, roundCounter) {
     round.append(newRound);
   }
 };
+const style = getComputedStyle(document.body);
 const animationFunc = function (color, duration, name) {
   document.body.style.setProperty("--color", color);
   document.body.style.setProperty("--duration", duration);
   document.body.style.setProperty("--name", name);
+  console.log(style.getPropertyValue("--duration"));
 };
 
 const timeDesigner = function (time) {
@@ -104,29 +105,30 @@ let w;
 let s;
 let l;
 let interval;
-const pomodoro = function (workTime, shortBreak, longBreak, round) {
+const pomodoro = function (work, shortBreak, longBreak, round) {
   !isMuted ? focusAudio.play() : isMuted;
-  animationFunc("#F9D923", `${workTime}ms`, "countdown1");
+  animationFunc("#F9D923", `${work}ms`, "countdown1");
+  workStatus.textContent = "Focus Time";
+  timeDesigner(work);
   w = setInterval(() => {
-    workStatus.textContent = "Focus Time";
-    workTime -= 1000;
-    timeDesigner(workTime);
-    if (workTime === 0) {
+    work -= 1000;
+    timeDesigner(work);
+    if (work === 0) {
       clearInterval(w);
       roundCounter++;
       addRound(round, roundCounter);
       if (roundCounter == round) {
         clearInterval(interval);
         finalTab.classList.remove("hidden");
-        appTab.style.visibility = "hidden";
-        optionTab.style.visibility = "hidden";
-        infoTab.style.visibility = "hidden";
+        !isMuted ? endAudio.play() : isMuted;
+        isMuted = true;
       }
       if (roundCounter % 4 !== 0) {
         !isMuted ? shortBreakAudio.play() : isMuted;
         animationFunc("#36AE7C", `${shortBreak}ms`, "countdown2");
+        workStatus.textContent = "Short Break";
+        timeDesigner(shortBreak);
         s = setInterval(() => {
-          workStatus.textContent = "Short Break";
           shortBreak -= 1000;
           timeDesigner(shortBreak);
           shortBreak === 0 ? clearInterval(s) : shortBreak;
@@ -134,8 +136,9 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
       } else {
         !isMuted ? longBreakAudio.play() : isMuted;
         animationFunc("#187498", `${longBreak}ms`, "countdown3");
+        workStatus.textContent = "Long Break";
+        timeDesigner(longBreak);
         l = setInterval(() => {
-          workStatus.textContent = "Long Break";
           longBreak -= 1000;
           timeDesigner(longBreak);
           longBreak === 0 ? clearInterval(l) : longBreak;
@@ -144,14 +147,13 @@ const pomodoro = function (workTime, shortBreak, longBreak, round) {
     }
   }, 1000);
 };
-const intervalFunc = function () {
-  pomodoro(workTime, shortBreakTime, longBreakTime, roundTime);
-};
-
 //* Start Button
 startBtn.addEventListener("click", (e) => {
   pomodoro(workTime, shortBreakTime, longBreakTime, roundTime);
-  interval = setInterval(intervalFunc, workTime + shortBreakTime);
+  interval = setInterval(
+    () => pomodoro(workTime, shortBreakTime, longBreakTime, roundTime),
+    workTime + longBreakTime
+  );
   startBtn.classList.add("hidden");
   stopBtn.classList.remove("hidden");
   isStart = true;
@@ -230,6 +232,7 @@ optionTabButtons.addEventListener("click", (e) => {
 
 //* Final Tab
 finalTab.addEventListener("mouseover", (e) => {
+  isMuted = false;
   finalTab.classList.add("hidden");
   appTab.style.visibility = "visible";
   optionTab.style.visibility = "visible";
