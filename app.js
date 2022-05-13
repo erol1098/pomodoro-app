@@ -152,7 +152,9 @@ startBtn.addEventListener("click", (e) => {
   pomodoro(workTime, shortBreakTime, longBreakTime, roundTime);
   interval = setInterval(
     () => pomodoro(workTime, shortBreakTime, longBreakTime, roundTime),
-    workTime + longBreakTime
+    roundCounter % 4 !== 0
+      ? workTime + longBreakTime
+      : workTime + shortBreakTime
   );
   startBtn.classList.add("hidden");
   stopBtn.classList.remove("hidden");
