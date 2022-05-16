@@ -33,9 +33,9 @@ const longBreakAudio = document.querySelector(".long-break-audio");
 const endAudio = document.querySelector(".end-audio");
 
 //* Options Tab Variables
-const defaultWorkTime = 0.2;
-const defaultShortBrakeTime = 0.2;
-const defaultLongBreakTime = 0.2;
+const defaultWorkTime = 25;
+const defaultShortBrakeTime = 5;
+const defaultLongBreakTime = 15;
 const defaultRoundTime = 4;
 let workTime;
 let shortBreakTime;
@@ -64,6 +64,7 @@ const setDefaults = function () {
   timer.textContent = "00:00";
   document.body.style.setProperty("--name", "");
   document.body.style.setProperty("--color", "");
+  document.body.style.setProperty("--duration", "");
   startBtn.classList.remove("hidden");
   stopBtn.classList.add("hidden");
   isStart = false;
@@ -104,7 +105,6 @@ const timeDesigner = function (time) {
 let w;
 let s;
 let l;
-let interval;
 const pomodoro = function (work, shortBreak, longBreak, round) {
   !isMuted ? focusAudio.play() : isMuted;
   animationFunc("#F9D923", `${work}ms`, "countdown1");
@@ -112,13 +112,13 @@ const pomodoro = function (work, shortBreak, longBreak, round) {
   timeDesigner(work);
   w = setInterval(() => {
     work -= 1000;
+    // console.log("click1");
     timeDesigner(work);
     if (work === 0) {
       clearInterval(w);
       roundCounter++;
       addRound(round, roundCounter);
       if (roundCounter == round) {
-        clearInterval(interval);
         finalTab.classList.remove("hidden");
         !isMuted ? endAudio.play() : isMuted;
         isMuted = true;
@@ -130,8 +130,12 @@ const pomodoro = function (work, shortBreak, longBreak, round) {
         timeDesigner(shortBreak);
         s = setInterval(() => {
           shortBreak -= 1000;
+          // console.log("click2");
           timeDesigner(shortBreak);
           shortBreak === 0 ? clearInterval(s) : shortBreak;
+          shortBreak === 0
+            ? pomodoro(workTime, shortBreakTime, longBreakTime, roundTime)
+            : shortBreak;
         }, 1000);
       } else {
         !isMuted ? longBreakAudio.play() : isMuted;
@@ -140,8 +144,12 @@ const pomodoro = function (work, shortBreak, longBreak, round) {
         timeDesigner(longBreak);
         l = setInterval(() => {
           longBreak -= 1000;
+          // console.log("click3");
           timeDesigner(longBreak);
-          longBreak === 0 ? clearInterval(l) : longBreak;
+          longBreak < 300 ? clearInterval(l) : longBreak;
+          longBreak < 300
+            ? pomodoro(workTime, shortBreakTime, longBreakTime, roundTime)
+            : longBreak;
         }, 1000);
       }
     }
@@ -150,12 +158,6 @@ const pomodoro = function (work, shortBreak, longBreak, round) {
 //* Start Button
 startBtn.addEventListener("click", (e) => {
   pomodoro(workTime, shortBreakTime, longBreakTime, roundTime);
-  interval = setInterval(
-    () => pomodoro(workTime, shortBreakTime, longBreakTime, roundTime),
-    roundCounter % 4 !== 0
-      ? workTime + longBreakTime
-      : workTime + shortBreakTime
-  );
   startBtn.classList.add("hidden");
   stopBtn.classList.remove("hidden");
   isStart = true;
@@ -166,7 +168,6 @@ stopBtn.addEventListener("click", (e) => {
   clearInterval(w);
   clearInterval(s);
   clearInterval(l);
-  clearInterval(interval);
   setDefaults();
   defineVar();
 });
@@ -221,7 +222,6 @@ optionTabButtons.addEventListener("click", (e) => {
   } else if (e.target.classList.contains("close")) {
     appTab.classList.toggle("hidden");
     optionTab.classList.toggle("hidden");
-    // round.innerHTML = "";
     addRound(roundTime, roundCounter);
   } else if (e.target.classList.contains("refresh")) {
     document.querySelector("#work-time").value = defaultWorkTime;
@@ -235,16 +235,12 @@ optionTabButtons.addEventListener("click", (e) => {
 finalTab.addEventListener("mouseover", (e) => {
   isMuted = false;
   finalTab.classList.add("hidden");
-  appTab.style.visibility = "visible";
-  optionTab.style.visibility = "visible";
-  infoTab.style.visibility = "visible";
+  infoTab.classList.add("hidden");
   appTab.classList.remove("hidden");
   optionTab.classList.add("hidden");
-  infoTab.classList.add("hidden");
   clearInterval(w);
   clearInterval(s);
   clearInterval(l);
-  clearInterval(interval);
   setDefaults();
   defineVar();
 });
